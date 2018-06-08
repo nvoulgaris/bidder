@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.0.2.RELEASE'
+		springBootVersion = "${springBootVersion}"
 	}
 	repositories {
 		mavenCentral()
@@ -11,20 +11,30 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.bluebanana.bidder'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
 }
 
-
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile(
+			[group: 'org.springframework.boot', name: 'spring-boot-starter', version: "${springBootVersion}"],
+			[group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "${springBootVersion}"]
+	)
+
+	testCompile(
+			[group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "${springBootVersion}"],
+			[group: 'org.junit.vintage', name: 'junit-vintage-engine', version: "${jUnitVintageVersion}"],
+			[group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "${jUnitJupiterApiVersion}"],
+			[group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: "${jUnitJupiterEngineVersion}"],
+			[group: 'org.junit.platform', name: 'junit-platform-runner', version: "${jUnitJupiterPlatformVersion}"],
+			[group: 'org.mockito', name: 'mockito-core', version: "${mockitoVersion}"],
+			[group: 'org.assertj', name: 'assertj-core', version: "${assertjVersion}"],
+			[group: 'com.google.guava', name: 'guava', version: 'r05']
+	)
 }
