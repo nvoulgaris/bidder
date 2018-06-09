@@ -1,17 +1,18 @@
 package com.bluebanana.bidder.usecase;
 
 import com.bluebanana.bidder.gateway.CampaignGateway;
-import com.bluebanana.bidder.model.BidRequestDto;
+import com.bluebanana.bidder.model.Campaign;
+import com.bluebanana.bidder.model.request.BidRequestDto;
 import com.bluebanana.bidder.model.BidResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -19,6 +20,8 @@ class BidUseCaseShould {
 
   @Mock BidRequestDto request;
   @Mock CampaignGateway targetedCampaigns;
+  @Mock CampaignFilter campaignFilter;
+  @Mock Campaign campaing;
   @InjectMocks BidUseCase useCase;
 
   @BeforeEach
@@ -27,9 +30,28 @@ class BidUseCaseShould {
   }
 
   @Test
+  public void retrieveCampaigns() {
+    useCase.execute(request);
+
+    verify(targetedCampaigns).retrieve();
+  }
+  
+  @Test
+  public void matchTargetingCampaigns() {
+    List<Campaign> campaigns = new ArrayList<>(Collections.singletonList(campaing));
+    when(targetedCampaigns.retrieve()).thenReturn(campaigns);
+
+    useCase.execute(request);
+
+    verify(campaignFilter).applyCriterion(campaigns, request.country());
+  }
+
+  @Test
   public void returnEmptyResponseWhenNoAvailableCampaignsAreRetrieved() {
     when(targetedCampaigns.retrieve()).thenReturn(Collections.EMPTY_LIST);
+
     Optional<BidResponseDto> response = useCase.execute(request);
+
     assertThat(response).isEqualTo(Optional.empty());
   }
 }

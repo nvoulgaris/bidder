@@ -30,25 +30,35 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @SpringBootTest(classes = {BidderApplication.class})
 public class NotBidFeature {
 
-  private static final String BIDS_PATH = "/bid";
-  private static final String BID_REQUEST = "fixtures/requests/no_available_campaign.json";
-  private static final String CAMPAIGNS_RESPONSE = "fixtures.responses/no_available_campaigns.json";
+  private static final String BID_PATH = "/bid";
+  private static final String NO_AVAILABLE_CAMPAIGNS_BID_REQUEST = "fixtures/requests/no_available_campaign.json";
+  private static final String NO_MATCHING_CAMPAIGNS_BID_REQUEST = "fixtures/requests/no_matching_campaign.json";
+  private static final String NO_AVAILABLE_CAMPAIGNS_RESPONSE = "fixtures.responses/no_available_campaigns.json";
+  private static final String NO_MATCHING_CAMPAIGNS_RESPONSE = "fixtures.responses/no_matching_campaigns.json";
   private MockMvc mockMvc;
-  private JsonFixtures jsonFixtures;
-  private String bidRequest;
-  private String campaigns;
+  private String noAvailableCampaignsBidRequest;
+  private String noMatchingCampaignsBidRequest;
+  private String noAvailableCampaigns;
+  private String noMatchingCampaigns;
 
   @MockBean RestTemplate restTemplate;
   @Autowired WebApplicationContext webApplicationContext;
 
   private void prepareFixtures() {
-    jsonFixtures = new JsonFixtures();
-    bidRequest = jsonFixtures.load(BID_REQUEST);
-    campaigns = jsonFixtures.load(CAMPAIGNS_RESPONSE);
+    JsonFixtures jsonFixtures = new JsonFixtures();
+    noAvailableCampaignsBidRequest = jsonFixtures.load(NO_AVAILABLE_CAMPAIGNS_BID_REQUEST);
+    noMatchingCampaignsBidRequest = jsonFixtures.load(NO_MATCHING_CAMPAIGNS_BID_REQUEST);
+    noAvailableCampaigns = jsonFixtures.load(NO_AVAILABLE_CAMPAIGNS_RESPONSE);
+    noMatchingCampaigns = jsonFixtures.load(NO_MATCHING_CAMPAIGNS_RESPONSE);
   }
 
   private void mockNoAvailableCampaigns() {
-    ResponseEntity<String> campaignsResponse = new ResponseEntity<>(campaigns, HttpStatus.OK);
+    ResponseEntity<String> campaignsResponse = new ResponseEntity<>(noAvailableCampaigns, HttpStatus.OK);
+    when(restTemplate.exchange(anyString(), any(), any(HttpEntity.class), any(Class.class))).thenReturn(campaignsResponse);
+  }
+
+  private void mockNoMatchingCampaigns() {
+    ResponseEntity<String> campaignsResponse = new ResponseEntity<>(noMatchingCampaigns, HttpStatus.OK);
     when(restTemplate.exchange(anyString(), any(), any(HttpEntity.class), any(Class.class))).thenReturn(campaignsResponse);
   }
 
@@ -62,13 +72,25 @@ public class NotBidFeature {
   public void notBidWhenThereAreNoAvailableCampaigns() throws Exception {
     mockNoAvailableCampaigns();
 
-    mockMvc.perform(post(BIDS_PATH)
+    mockMvc.perform(post(BID_PATH)
         .accept(MediaType.APPLICATION_JSON)
         .contentType(MediaType.APPLICATION_JSON)
-        .content(bidRequest))
+        .content(noAvailableCampaignsBidRequest))
         .andDo(print())
         .andExpect(status().isNoContent())
         .andReturn();
   }
 
+  @Test
+  public void notBidWhenThereAreNoMatchingCampaigns() throws Exception {
+    mockNoMatchingCampaigns();
+
+    mockMvc.perform(post(BID_PATH)
+        .accept(MediaType.APPLICATION_JSON)
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(noMatchingCampaignsBidRequest))
+        .andDo(print())
+        .andExpect(status().isNoContent())
+        .andReturn();
+  }
 }

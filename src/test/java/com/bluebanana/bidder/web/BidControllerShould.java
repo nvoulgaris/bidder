@@ -1,6 +1,6 @@
 package com.bluebanana.bidder.web;
 
-import com.bluebanana.bidder.model.BidRequestDto;
+import com.bluebanana.bidder.model.request.BidRequestDto;
 import com.bluebanana.bidder.model.BidResponseDto;
 import com.bluebanana.bidder.usecase.UseCase;
 import org.junit.jupiter.api.BeforeEach;
