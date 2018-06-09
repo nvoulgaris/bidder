@@ -2,7 +2,6 @@ package com.bluebanana.bidder.acceptance.integration;
 
 import com.bluebanana.bidder.BidderApplication;
 import com.bluebanana.bidder.JsonFixtures;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,11 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -33,16 +30,15 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(JUnitPlatform.class)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {BidderApplication.class})
-public class BidFeature {
+public class ErrorHandlingFeature {
 
   private static final String BID_PATH = "/bid";
   private static final String BID_REQUEST = "fixtures/bid/request/bid.json";
-  private static final String EXPECTED_BID_RESPONSE = "fixtures/bid/response/expected_bid.json";
-  private static final String CAMPAIGNS_RESPONSE = "fixtures/campaign/response/available_campaigns.json";
+  private static final String CAMPAIGNS_RESPONSE = "fixtures/campaign/response/malformed_campaigns.json";
+
   private MockMvc mockMvc;
   private String bidRequest;
   private String campaigns;
-  private String expectedBidResponse;
 
   @MockBean RestTemplate restTemplate;
   @Autowired WebApplicationContext webApplicationContext;
@@ -51,14 +47,13 @@ public class BidFeature {
     JsonFixtures jsonFixtures = new JsonFixtures();
     bidRequest = jsonFixtures.load(BID_REQUEST);
     campaigns = jsonFixtures.load(CAMPAIGNS_RESPONSE);
-    expectedBidResponse = jsonFixtures.load(EXPECTED_BID_RESPONSE);
   }
 
-  private void mockAvailableCampaigns() {
+  private void mockMalformedCampaigns() {
     ResponseEntity<String> campaignsResponse = new ResponseEntity<>(campaigns, HttpStatus.OK);
     when(restTemplate.exchange(anyString(), any(), any(HttpEntity.class), any(Class.class))).thenReturn(campaignsResponse);
   }
-  
+
   @BeforeEach
   public void setUp() {
     mockMvc = webAppContextSetup(webApplicationContext).build();
@@ -66,20 +61,15 @@ public class BidFeature {
   }
 
   @Test
-  public void bidForTheHighestPayingCampaignThatMatchesTheTargetingCriteria() throws Exception {
-    mockAvailableCampaigns();
+  public void respondWithInternalServerErrorStatusCodeWhenCannotParseCampaigns() throws Exception {
+    mockMalformedCampaigns();
 
-    MvcResult result = mockMvc.perform(post(BID_PATH)
+    mockMvc.perform(post(BID_PATH)
         .accept(MediaType.APPLICATION_JSON)
         .contentType(MediaType.APPLICATION_JSON)
         .content(bidRequest))
         .andDo(print())
-        .andExpect(status().isOk())
+        .andExpect(status().isInternalServerError())
         .andReturn();
-
-    JSONObject actualContent = new JSONObject(result.getResponse().getContentAsString());
-    JSONObject expectedContent = new JSONObject(expectedBidResponse);
-
-    assertThat(actualContent).isEqualToComparingFieldByFieldRecursively(expectedContent);
   }
 }

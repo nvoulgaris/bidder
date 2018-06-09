@@ -6,5 +6,6 @@ import com.bluebanana.bidder.model.exception.RetrieveCampaignsException;
 import java.util.List;
 
 public interface CampaignGateway {
+
   List<Campaign> retrieve() throws RetrieveCampaignsException;
 }
