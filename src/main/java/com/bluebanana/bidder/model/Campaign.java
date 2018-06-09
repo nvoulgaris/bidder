@@ -1,19 +1,25 @@
 package com.bluebanana.bidder.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class Campaign {
 
-  private String id;
-  private String name;
-  private double price;
-  private String adm;
-  private List<String> targetedCountries;
+  private final String id;
+  private final String name;
+  private final double price;
+  private final String adm;
+  private final List<String> targetedCountries;
 
-  public Campaign() {
-  }
-
-  public Campaign(String id, String name, double price, String adm, List<String> targetedCountries) {
+  @JsonCreator
+  public Campaign(@JsonProperty("id") String id,
+                  @JsonProperty("name") String name,
+                  @JsonProperty("price") double price,
+                  @JsonProperty("adm") String adm,
+                  @JsonProperty("targetedCountries") List<String> targetedCountries
+  ) {
     this.id = id;
     this.name = name;
     this.price = price;
@@ -25,39 +31,15 @@ public class Campaign {
     return id;
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
   public double getPrice() {
     return price;
-  }
-
-  public void setPrice(double price) {
-    this.price = price;
   }
 
   public String getAdm() {
     return adm;
   }
 
-  public void setAdm(String adm) {
-    this.adm = adm;
-  }
-
-  public List<String> getTargetedCountries() {
-    return targetedCountries;
-  }
-
-  public void setTargetedCountries(List<String> targetedCountries) {
-    this.targetedCountries = targetedCountries;
+  public boolean isFor(String country) {
+    return this.targetedCountries.contains(country);
   }
 }

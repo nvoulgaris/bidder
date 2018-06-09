@@ -14,7 +14,8 @@ import java.util.List;
 @Component
 public class TargetedCampaigns implements CampaignGateway {
 
-  private static final String GET_ALL_CACMPAIGNS_URI = "http://campaigns.apiblueprint.org/campaigns";
+  private static final String GET_ALL_CAMPAIGNS_URI = "http://campaigns.apiblueprint.org/campaigns";
+  private static final String FAILED_TO_RETRIEVE_CAMPAIGNS = "Failed to retrieve campaigns";
 
   private ObjectMapper mapper = new ObjectMapper();
 
@@ -25,7 +26,7 @@ public class TargetedCampaigns implements CampaignGateway {
     List<Campaign> campaigns;
     try {
       ResponseEntity<String> response = restTemplate.exchange(
-          GET_ALL_CACMPAIGNS_URI,
+          GET_ALL_CAMPAIGNS_URI,
           HttpMethod.GET,
           getHttpEntity(),
           String.class
@@ -33,7 +34,7 @@ public class TargetedCampaigns implements CampaignGateway {
 
       campaigns = mapper.readValue(response.getBody(), new TypeReference<List<Campaign>>(){});
     } catch (Exception e) {
-      throw new RetrieveCampaignsException("Failed to retrieve campaigns", e);
+      throw new RetrieveCampaignsException(FAILED_TO_RETRIEVE_CAMPAIGNS, e);
     }
 
     return campaigns;

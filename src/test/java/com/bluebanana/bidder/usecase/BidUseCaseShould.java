@@ -20,7 +20,6 @@ class BidUseCaseShould {
 
   @Mock BidRequestDto request;
   @Mock CampaignGateway targetedCampaigns;
-  @Mock CampaignFilter campaignFilter;
   @Mock Campaign campaing;
   @InjectMocks BidUseCase useCase;
 
@@ -34,16 +33,6 @@ class BidUseCaseShould {
     useCase.execute(request);
 
     verify(targetedCampaigns).retrieve();
-  }
-  
-  @Test
-  public void matchTargetingCampaigns() {
-    List<Campaign> campaigns = new ArrayList<>(Collections.singletonList(campaing));
-    when(targetedCampaigns.retrieve()).thenReturn(campaigns);
-
-    useCase.execute(request);
-
-    verify(campaignFilter).applyCriterion(campaigns, request.country());
   }
 
   @Test
