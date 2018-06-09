@@ -2,6 +2,7 @@ package com.bluebanana.bidder.acceptance.integration;
 
 import com.bluebanana.bidder.BidderApplication;
 import com.bluebanana.bidder.JsonFixtures;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -43,16 +44,16 @@ public class BidFeature {
   private MockMvc mockMvc;
   private String bidRequest;
   private String campaigns;
+  private String expectedBidResponse;
 
-  @MockBean
-  RestTemplate restTemplate;
-  @Autowired
-  WebApplicationContext webApplicationContext;
+  @MockBean RestTemplate restTemplate;
+  @Autowired WebApplicationContext webApplicationContext;
 
   private void prepareFixtures() {
     JsonFixtures jsonFixtures = new JsonFixtures();
     bidRequest = jsonFixtures.load(BID_REQUEST);
     campaigns = jsonFixtures.load(CAMPAIGNS_RESPONSE);
+    expectedBidResponse = jsonFixtures.load(EXPECTED_BID_RESPONSE);
   }
 
   private void mockAvailableCampaigns() {
@@ -78,7 +79,9 @@ public class BidFeature {
         .andExpect(status().isOk())
         .andReturn();
 
-    String content = result.getResponse().getContentAsString();
-    assertThat(content).isEqualTo(EXPECTED_BID_RESPONSE);
+    JSONObject actualContent = new JSONObject(result.getResponse().getContentAsString());
+    JSONObject expectedContent = new JSONObject(expectedBidResponse);
+
+    assertThat(actualContent).isEqualToComparingFieldByFieldRecursively(expectedContent);
   }
 }
