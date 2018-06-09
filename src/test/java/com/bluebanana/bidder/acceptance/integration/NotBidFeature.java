@@ -31,10 +31,10 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 public class NotBidFeature {
 
   private static final String BID_PATH = "/bid";
-  private static final String NO_AVAILABLE_CAMPAIGNS_BID_REQUEST = "fixtures/requests/no_available_campaign.json";
-  private static final String NO_MATCHING_CAMPAIGNS_BID_REQUEST = "fixtures/requests/no_matching_campaign.json";
-  private static final String NO_AVAILABLE_CAMPAIGNS_RESPONSE = "fixtures.responses/no_available_campaigns.json";
-  private static final String NO_MATCHING_CAMPAIGNS_RESPONSE = "fixtures.responses/no_matching_campaigns.json";
+  private static final String NO_AVAILABLE_CAMPAIGNS_BID_REQUEST = "fixtures/bid/request/bid_for_no_available_campaign.json";
+  private static final String NO_MATCHING_CAMPAIGNS_BID_REQUEST = "fixtures/bid/request/bid_for_no_matching_campaign.json";
+  private static final String NO_AVAILABLE_CAMPAIGNS_RESPONSE = "fixtures/campaign/response/no_available_campaigns.json";
+  private static final String NO_MATCHING_CAMPAIGNS_RESPONSE = "fixtures/campaign/response/no_matching_campaigns.json";
   private MockMvc mockMvc;
   private String noAvailableCampaignsBidRequest;
   private String noMatchingCampaignsBidRequest;
