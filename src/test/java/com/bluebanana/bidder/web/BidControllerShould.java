@@ -4,7 +4,6 @@ import com.bluebanana.bidder.usecase.request.BidRequestDto;
 import com.bluebanana.bidder.usecase.response.BidResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -19,10 +18,11 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 class BidControllerShould {
 
-  @Mock UseCase<BidRequestDto, BidResponseDto> useCase;
+  @Mock UseCase<RequestDto, ResponseDto> useCase;
   @Mock BidRequestDto bidRequestDto;
   @Mock BidResponseDto useCaseResponse;
-  @InjectMocks BidController bidController;
+
+  BidController bidController;
 
   private void prepareMocksBehavior() {
     when(useCase.execute(bidRequestDto)).thenReturn(Optional.of(useCaseResponse));
@@ -32,6 +32,7 @@ class BidControllerShould {
   public void setUp() {
     initMocks(this);
     prepareMocksBehavior();
+    bidController = new BidController(useCase);
   }
 
   @Test

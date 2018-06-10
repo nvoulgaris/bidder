@@ -20,7 +20,12 @@ public class BidController {
 
   private static final String EMPTY_BODY = "";
 
-  @Autowired private UseCase<RequestDto, ResponseDto> bidUseCase;
+  private UseCase<RequestDto, ResponseDto> bidUseCase;
+
+  @Autowired
+  public BidController(UseCase<RequestDto, ResponseDto> bidUseCase) {
+    this.bidUseCase = bidUseCase;
+  }
 
   @RequestMapping(
       method = RequestMethod.POST,

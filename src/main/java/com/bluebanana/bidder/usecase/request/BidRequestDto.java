@@ -23,7 +23,6 @@ public class BidRequestDto implements RequestDto {
     return id;
   }
 
-
   public Device getDevice() {
     return device;
   }

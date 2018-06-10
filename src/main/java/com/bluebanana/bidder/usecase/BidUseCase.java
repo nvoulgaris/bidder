@@ -12,8 +12,14 @@ import java.util.Optional;
 @Service
 public class BidUseCase implements UseCase<BidRequestDto, BidResponseDto> {
 
-  @Autowired private CampaignGateway targetedCampaigns;
-  @Autowired private CampaignConverter campaignConverter;
+  private CampaignGateway targetedCampaigns;
+  private CampaignConverter campaignConverter;
+
+  @Autowired
+  public BidUseCase(CampaignGateway targetedCampaigns, CampaignConverter campaignConverter) {
+    this.targetedCampaigns = targetedCampaigns;
+    this.campaignConverter = campaignConverter;
+  }
 
   @Override
   public Optional<BidResponseDto> execute(final BidRequestDto request) {

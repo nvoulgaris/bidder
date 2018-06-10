@@ -17,9 +17,14 @@ public class TargetedCampaignsGateway implements CampaignGateway {
   private static final String GET_ALL_CAMPAIGNS_URI = "http://campaigns.apiblueprint.org/campaigns";
   private static final String FAILED_TO_RETRIEVE_CAMPAIGNS = "Failed to retrieve campaigns";
 
-  private ObjectMapper mapper = new ObjectMapper();
+  private ObjectMapper mapper;
+  private RestTemplate restTemplate;
 
-  @Autowired private RestTemplate restTemplate;
+  @Autowired
+  public TargetedCampaignsGateway(RestTemplate restTemplate) {
+    this.restTemplate = restTemplate;
+    this.mapper = new ObjectMapper();
+  }
 
   @Override
   public List<Campaign> retrieve() throws RetrieveCampaignsException {
