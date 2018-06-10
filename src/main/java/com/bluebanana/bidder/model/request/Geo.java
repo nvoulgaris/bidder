@@ -1,32 +1,24 @@
 package com.bluebanana.bidder.model.request;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Geo {
 
-  private String country;
-  private Long lat;
-  private Long lon;
+  private final String country;
+  private final Long lat;
+  private final Long lon;
+
+  @JsonCreator
+  public Geo(@JsonProperty("country") String country,
+             @JsonProperty("lat") Long lat,
+             @JsonProperty("lon") Long lon) {
+    this.country = country;
+    this.lat = lat;
+    this.lon = lon;
+  }
 
   public String getCountry() {
     return country;
-  }
-
-  public void setCountry(String country) {
-    this.country = country;
-  }
-
-  public Long getLat() {
-    return lat;
-  }
-
-  public void setLat(Long lat) {
-    this.lat = lat;
-  }
-
-  public Long getLon() {
-    return lon;
-  }
-
-  public void setLon(Long lon) {
-    this.lon = lon;
   }
 }

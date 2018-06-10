@@ -2,28 +2,20 @@ package com.bluebanana.bidder.model.response;
 
 public class BidResponseDto {
 
-  private String id;
-  private Bid bid;
+  private final String id;
+  private final Bid bid;
 
   private BidResponseDto(Builder builder) {
-    setId(builder.id);
-    setBid(builder.bid);
+    id = builder.id;
+    bid = builder.bid;
   }
 
   public String getId() {
     return id;
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
   public Bid getBid() {
     return bid;
-  }
-
-  public void setBid(Bid bid) {
-    this.bid = bid;
   }
 
   public static final class Builder {

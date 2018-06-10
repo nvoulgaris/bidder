@@ -1,23 +1,21 @@
 package com.bluebanana.bidder.model.request;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Device {
 
-  private String os;
-  private Geo geo;
+  private final String os;
+  private final Geo geo;
 
-  public String getOs() {
-    return os;
-  }
-
-  public void setOs(String os) {
+  @JsonCreator
+  public Device(@JsonProperty("os") String os,
+                @JsonProperty("geo") Geo geo) {
     this.os = os;
+    this.geo = geo;
   }
 
   public Geo getGeo() {
     return geo;
-  }
-
-  public void setGeo(Geo geo) {
-    this.geo = geo;
   }
 }
