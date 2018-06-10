@@ -1,4 +1,4 @@
-package com.bluebanana.bidder.model.response;
+package com.bluebanana.bidder.usecase.response;
 
 public class Bid {
 

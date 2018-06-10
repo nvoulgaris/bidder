@@ -1,9 +1,10 @@
-package com.bluebanana.bidder.model.request;
+package com.bluebanana.bidder.usecase.request;
 
+import com.bluebanana.bidder.web.RequestDto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BidRequestDto {
+public class BidRequestDto implements RequestDto {
 
   private final String id;
   private final App app;

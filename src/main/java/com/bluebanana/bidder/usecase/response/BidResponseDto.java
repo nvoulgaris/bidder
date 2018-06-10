@@ -1,6 +1,8 @@
-package com.bluebanana.bidder.model.response;
+package com.bluebanana.bidder.usecase.response;
 
-public class BidResponseDto {
+import com.bluebanana.bidder.web.ResponseDto;
+
+public class BidResponseDto implements ResponseDto {
 
   private final String id;
   private final Bid bid;

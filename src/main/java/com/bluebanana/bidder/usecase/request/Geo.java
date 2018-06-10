@@ -1,4 +1,4 @@
-package com.bluebanana.bidder.model.request;
+package com.bluebanana.bidder.usecase.request;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

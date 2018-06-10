@@ -1,4 +1,4 @@
-package com.bluebanana.bidder.model.exception;
+package com.bluebanana.bidder.gateway;
 
 public class RetrieveCampaignsException extends RuntimeException {
 

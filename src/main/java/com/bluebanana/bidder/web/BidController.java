@@ -1,8 +1,7 @@
 package com.bluebanana.bidder.web;
 
-import com.bluebanana.bidder.model.request.BidRequestDto;
-import com.bluebanana.bidder.model.response.BidResponseDto;
-import com.bluebanana.bidder.usecase.UseCase;
+import com.bluebanana.bidder.usecase.request.BidRequestDto;
+import com.bluebanana.bidder.usecase.response.BidResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -21,7 +20,7 @@ public class BidController {
 
   private static final String EMPTY_BODY = "";
 
-  @Autowired private UseCase<BidRequestDto,  BidResponseDto> bidUseCase;
+  @Autowired private UseCase<RequestDto, ResponseDto> bidUseCase;
 
   @RequestMapping(
       method = RequestMethod.POST,
@@ -29,12 +28,10 @@ public class BidController {
       consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
   )
   public HttpEntity<BidResponseDto> bid(@RequestBody BidRequestDto bidRequestDto) {
-    Optional<BidResponseDto> body = bidUseCase.execute(bidRequestDto);
+    Optional<ResponseDto> body = bidUseCase.execute(bidRequestDto);
 
-    ResponseEntity response = body.
+    return body.
         <ResponseEntity>map(responseBody -> new ResponseEntity<>(responseBody, HttpStatus.OK)).
         orElseGet(() -> new ResponseEntity<>(EMPTY_BODY, HttpStatus.NO_CONTENT));
-
-    return response;
   }
 }

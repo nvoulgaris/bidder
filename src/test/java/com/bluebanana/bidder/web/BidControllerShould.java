@@ -1,8 +1,7 @@
 package com.bluebanana.bidder.web;
 
-import com.bluebanana.bidder.model.request.BidRequestDto;
-import com.bluebanana.bidder.model.response.BidResponseDto;
-import com.bluebanana.bidder.usecase.UseCase;
+import com.bluebanana.bidder.usecase.request.BidRequestDto;
+import com.bluebanana.bidder.usecase.response.BidResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

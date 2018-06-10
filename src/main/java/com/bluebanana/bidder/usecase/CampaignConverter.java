@@ -1,8 +1,7 @@
 package com.bluebanana.bidder.usecase;
 
-import com.bluebanana.bidder.model.Campaign;
-import com.bluebanana.bidder.model.response.Bid;
-import com.bluebanana.bidder.model.response.BidResponseDto;
+import com.bluebanana.bidder.usecase.response.Bid;
+import com.bluebanana.bidder.usecase.response.BidResponseDto;
 import org.springframework.stereotype.Component;
 
 @Component

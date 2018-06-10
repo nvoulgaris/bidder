@@ -1,9 +1,8 @@
 package com.bluebanana.bidder.usecase;
 
-import com.bluebanana.bidder.gateway.CampaignGateway;
-import com.bluebanana.bidder.model.Campaign;
-import com.bluebanana.bidder.model.request.BidRequestDto;
-import com.bluebanana.bidder.model.response.BidResponseDto;
+import com.bluebanana.bidder.usecase.request.BidRequestDto;
+import com.bluebanana.bidder.usecase.response.BidResponseDto;
+import com.bluebanana.bidder.web.UseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,9 +1,8 @@
 package com.bluebanana.bidder.usecase;
 
-import com.bluebanana.bidder.gateway.CampaignGateway;
-import com.bluebanana.bidder.model.Campaign;
-import com.bluebanana.bidder.model.request.BidRequestDto;
-import com.bluebanana.bidder.model.response.BidResponseDto;
+import com.bluebanana.bidder.gateway.TargetedCampaign;
+import com.bluebanana.bidder.usecase.request.BidRequestDto;
+import com.bluebanana.bidder.usecase.response.BidResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,7 +19,8 @@ class BidUseCaseShould {
 
   @Mock BidRequestDto request;
   @Mock CampaignGateway targetedCampaigns;
-  @Mock Campaign campaing;
+  @Mock
+  TargetedCampaign campaing;
   @InjectMocks BidUseCase useCase;
 
   @BeforeEach

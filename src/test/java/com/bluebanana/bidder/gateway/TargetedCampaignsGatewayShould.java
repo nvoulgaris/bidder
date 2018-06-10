@@ -1,6 +1,5 @@
 package com.bluebanana.bidder.gateway;
 
-import com.bluebanana.bidder.model.exception.RetrieveCampaignsException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-class TargetedCampaignsShould {
+class TargetedCampaignsGatewayShould {
 
   private static final String URI = "http://campaigns.apiblueprint.org/campaigns";
   private static final String DUMMY_ERROR = "";
@@ -28,7 +27,8 @@ class TargetedCampaignsShould {
   @Mock RestTemplate restTemplate;
   @Mock ObjectMapper mapper;
   @Mock ResponseEntity<String> campaignsResponse;
-  @InjectMocks TargetedCampaigns targetedCampaigns;
+  @InjectMocks
+  TargetedCampaignsGateway targetedCampaignsGateway;
 
   @BeforeEach
   public void setUp() {
@@ -39,7 +39,7 @@ class TargetedCampaignsShould {
   public void wrapAndThrowExceptionWhenRetrievalFails() {
     when(restTemplate.exchange(anyString(), any(), any(HttpEntity.class), any(Class.class))).thenThrow(new RestClientException(DUMMY_ERROR));
 
-    Executable retrieveAvailableCampaigns = () -> targetedCampaigns.retrieve();
+    Executable retrieveAvailableCampaigns = () -> targetedCampaignsGateway.retrieve();
 
     assertThrows(RetrieveCampaignsException.class, retrieveAvailableCampaigns);
   }
@@ -48,7 +48,7 @@ class TargetedCampaignsShould {
   public void wrapAndThrowExceptionWhenParsingResponseFails() throws Exception {
     when(mapper.readValue(any(String.class), any(Class.class))).thenThrow(new IOException());
 
-    Executable retrieveAvailableCampaigns = () -> targetedCampaigns.retrieve();
+    Executable retrieveAvailableCampaigns = () -> targetedCampaignsGateway.retrieve();
 
     assertThrows(RetrieveCampaignsException.class, retrieveAvailableCampaigns);
   }
@@ -57,7 +57,7 @@ class TargetedCampaignsShould {
   public void retrieveAllCampaignsFromTheCampaignApi() {
     when(restTemplate.exchange(anyString(), any(), any(HttpEntity.class), any(Class.class))).thenReturn(campaignsResponse);
 
-    targetedCampaigns.retrieve();
+    targetedCampaignsGateway.retrieve();
 
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);

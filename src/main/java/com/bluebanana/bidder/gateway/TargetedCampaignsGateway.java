@@ -1,7 +1,7 @@
 package com.bluebanana.bidder.gateway;
 
-import com.bluebanana.bidder.model.Campaign;
-import com.bluebanana.bidder.model.exception.RetrieveCampaignsException;
+import com.bluebanana.bidder.usecase.Campaign;
+import com.bluebanana.bidder.usecase.CampaignGateway;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Component
-public class TargetedCampaigns implements CampaignGateway {
+public class TargetedCampaignsGateway implements CampaignGateway {
 
   private static final String GET_ALL_CAMPAIGNS_URI = "http://campaigns.apiblueprint.org/campaigns";
   private static final String FAILED_TO_RETRIEVE_CAMPAIGNS = "Failed to retrieve campaigns";
@@ -32,7 +32,7 @@ public class TargetedCampaigns implements CampaignGateway {
           String.class
       );
 
-      campaigns = mapper.readValue(response.getBody(), new TypeReference<List<Campaign>>(){});
+      campaigns = mapper.readValue(response.getBody(), new TypeReference<List<TargetedCampaign>>(){});
     } catch (Exception e) {
       throw new RetrieveCampaignsException(FAILED_TO_RETRIEVE_CAMPAIGNS, e);
     }

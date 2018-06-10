@@ -1,6 +1,5 @@
 package com.bluebanana.bidder.web;
 
-import com.bluebanana.bidder.model.exception.RetrieveCampaignsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -15,8 +14,8 @@ public class ExceptionHandlingAdvisor {
   private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionHandlingAdvisor.class);
   private static final String ERROR_MESSAGE = "Request could not be handled";
 
-  @ExceptionHandler(RetrieveCampaignsException.class)
-  public HttpEntity<String> handleRetrieveCampaignsException(RetrieveCampaignsException exception) {
+  @ExceptionHandler(Exception.class)
+  public HttpEntity<String> handleRetrieveCampaignsException(Exception exception) {
     LOGGER.error(ERROR_MESSAGE, exception);
     return new ResponseEntity<>(ERROR_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR);
   }
