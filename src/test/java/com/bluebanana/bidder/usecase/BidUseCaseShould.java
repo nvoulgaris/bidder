@@ -84,14 +84,14 @@ class BidUseCaseShould {
 
     Optional<BidResponseDto> response = useCase.execute(request);
 
-    assertThat(response.get().getBid().getPrice()).isEqualTo(1.05);
+    assertThat(response.get().getBidDto().getPrice()).isEqualTo(1.05);
   }
 
   @Test
   public void returnHighestPayingCampaignWhenThereAreMultipleMatchingCampaigns() {
     Optional<BidResponseDto> response = useCase.execute(request);
 
-    assertThat(response.get().getBid().getPrice()).isEqualTo(1.3);
+    assertThat(response.get().getBidDto().getPrice()).isEqualTo(1.3);
   }
 
   @Test
@@ -101,6 +101,6 @@ class BidUseCaseShould {
 
     Optional<BidResponseDto> response = useCase.execute(request);
 
-    assertThat(response.get().getBid().getPrice()).isEqualTo(1.4);
+    assertThat(response.get().getBidDto().getPrice()).isEqualTo(1.4);
   }
 }

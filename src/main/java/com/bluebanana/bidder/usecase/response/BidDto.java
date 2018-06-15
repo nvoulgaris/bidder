@@ -1,12 +1,12 @@
 package com.bluebanana.bidder.usecase.response;
 
-public class Bid {
+public class BidDto {
 
   private final String campaignId;
   private final double price;
   private final String adm;
 
-  private Bid(Builder builder) {
+  private BidDto(Builder builder) {
     campaignId = builder.campaignId;
     price = builder.price;
     adm = builder.adm;
@@ -48,8 +48,8 @@ public class Bid {
       return this;
     }
 
-    public Bid build() {
-      return new Bid(this);
+    public BidDto build() {
+      return new BidDto(this);
     }
   }
 }

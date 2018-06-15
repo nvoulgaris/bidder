@@ -7,27 +7,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class BidRequestDto implements RequestDto {
 
   private final String id;
-  private final App app;
-  private final Device device;
+  private final AppDto appDto;
+  private final DeviceDto deviceDto;
 
   @JsonCreator
   public BidRequestDto(@JsonProperty("id") String id,
-                       @JsonProperty("app") App app,
-                       @JsonProperty("device") Device device) {
+                       @JsonProperty("app") AppDto appDto,
+                       @JsonProperty("device") DeviceDto deviceDto) {
     this.id = id;
-    this.app = app;
-    this.device = device;
+    this.appDto = appDto;
+    this.deviceDto = deviceDto;
   }
 
   public String getId() {
     return id;
   }
 
-  public Device getDevice() {
-    return device;
+  public DeviceDto getDeviceDto() {
+    return deviceDto;
   }
 
   public String country() {
-    return this.getDevice().getGeo().getCountry();
+    return this.getDeviceDto().getGeoDto().getCountry();
   }
 }

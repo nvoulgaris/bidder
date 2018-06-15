@@ -1,28 +1,31 @@
 package com.bluebanana.bidder.usecase.response;
 
 import com.bluebanana.bidder.web.ResponseDto;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BidResponseDto implements ResponseDto {
 
   private final String id;
-  private final Bid bid;
+
+  @JsonProperty("bid")
+  private final BidDto bidDto;
 
   private BidResponseDto(Builder builder) {
     id = builder.id;
-    bid = builder.bid;
+    bidDto = builder.bidDto;
   }
 
   public String getId() {
     return id;
   }
 
-  public Bid getBid() {
-    return bid;
+  public BidDto getBidDto() {
+    return bidDto;
   }
 
   public static final class Builder {
     private String id;
-    private Bid bid;
+    private BidDto bidDto;
 
     public Builder() {
     }
@@ -32,8 +35,8 @@ public class BidResponseDto implements ResponseDto {
       return this;
     }
 
-    public Builder withBid(Bid bid) {
-      this.bid = bid;
+    public Builder withBid(BidDto bidDto) {
+      this.bidDto = bidDto;
       return this;
     }
 
