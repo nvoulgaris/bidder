@@ -1,3 +1,14 @@
+# Overview
+
+A real-time bidder application. Advertisers submit bids to buy ad space in real time. The bidder receives the bid requests, retrieves the available campaings from a campaign pool and responds with a bid for the highest paying campaing, if any.
+
+# Technical specs
+
+* Dependency Inversion principle
+* Single Responsibility principle
+* Immutable objects
+* Outside-in TDD
+
 # Installation
 
 This guide assumes a machine with Java 8 installed. If java 8 is not installed, please visit the [official oracle website](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and make sure that Java 8 is installed before continuing.
